@@ -4,6 +4,8 @@ func typeName(_ type: Any.Type) -> String {
   if let index = name.firstIndex(of: ".") {
     name.removeSubrange(...index)
   }
+  // NSRegularExpression isn't available on Android.
+#if !os(Android)
   let sanitizedName =
     name
     .replacingOccurrences(
@@ -12,4 +14,7 @@ func typeName(_ type: Any.Type) -> String {
       options: .regularExpression
     )
   return sanitizedName
+#else
+  return name
+#endif
 }
